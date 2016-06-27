@@ -3,3 +3,7 @@ docroot/files
 docroot/sites/*/files
 docroot/sites/*/private
 acquia-files
+.directory
+/.idea/
+settings.local.php
+/docroot/sites/default/settings.local.php
