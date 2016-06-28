@@ -1,0 +1,6 @@
+demo_event.demo_event_page:
+  path: '/demo_event_page'
+  defaults:
+    _controller: '\Drupal\demo_event\Controller\DemoEventController::getDemoEventPage'
+  requirements:
+    _permission: 'view content'
