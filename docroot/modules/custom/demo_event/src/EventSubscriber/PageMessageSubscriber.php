@@ -23,7 +23,7 @@ class PageMessageSubscriber implements EventSubscriberInterface{
   }
   
   public function messageChange(DemoEvent $event) {
-    $message = 'Hello ' . $this->current_user->getUsername() . '!';
+    $message = 'Hello ' . $this->currentUser->getUsername() . '!';
     $event->setMessage($message);
   }
 }
