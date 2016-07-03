@@ -1,0 +1,6 @@
+name: Demo Currencies
+type: module
+description: 'My demo module implements test task of lesson 3.'
+package: Demo
+version: 1.0
+core: 8.x

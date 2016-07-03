@@ -4,4 +4,3 @@ description: 'My demo module implements the Observer pattern.'
 package: Demo
 version: 1.0
 core: 8.x
-configure: entity.action.collection
