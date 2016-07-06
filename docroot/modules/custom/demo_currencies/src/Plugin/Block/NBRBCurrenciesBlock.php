@@ -64,7 +64,8 @@ class NBRBCurrenciesBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function build() {
-    $data = $this->nbrbCurrencies->setDate('01/03/2014')->getData();
+    $this->nbrbCurrencies->setDate('01/03/2014');
+    $data = $this->nbrbCurrencies->getData();
     $a = 1;
     return [
       '#type' => 'markup',
