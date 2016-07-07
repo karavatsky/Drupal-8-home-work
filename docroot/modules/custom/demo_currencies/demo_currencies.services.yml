@@ -1,4 +1,4 @@
 services:
   demo_currencies.nbrb_currencies:
     class: Drupal\demo_currencies\NBRBCurrencies
-    arguments: ['@http_client', 'http://www.nbrb.by/Services/XmlExRates.aspx']
+    arguments: ['@http_client', 'http://www.nbrb.by/Services/XmlExRates.aspx', 'http://www.nbrb.by/Services/XmlExRatesRef.aspx']

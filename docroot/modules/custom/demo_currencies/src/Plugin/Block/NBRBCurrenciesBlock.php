@@ -65,7 +65,7 @@ class NBRBCurrenciesBlock extends BlockBase implements ContainerFactoryPluginInt
    */
   public function build() {
     $this->nbrbCurrencies->setDate('01/03/2014');
-    $data = $this->nbrbCurrencies->getData();
+    $data = $this->nbrbCurrencies->getCurrenciesRateData();
     $a = 1;
     return [
       '#type' => 'markup',
@@ -77,6 +77,12 @@ class NBRBCurrenciesBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function blockForm($form, FormStateInterface $form_state) {
+    $data = $this->nbrbCurrencies->getCurrenciesListData();
+    $form['currencies'] = array(
+      '#type' => 'checkboxes',
+      '#options' => array('SAT' => $this->t('SAT'), 'ACT' => $this->t('ACT')),
+      '#title' => $this->t('Currencies for display'),
+    );
     return $form;
   }
 
