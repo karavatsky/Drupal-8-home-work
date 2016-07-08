@@ -41,14 +41,28 @@ class NBRBCurrencies {
     $this->currenciesListUrl = $currencies_list_url;
   }
 
-  public function getCurrenciesRateData() {
+  protected function loadCurrenciesRateData() {
     $xml = $this->getXml();
     return $this->parseXml($xml);
   }
 
-  public function getCurrenciesListData() {
+  public function getCurrenciesRateData() {
+    if (!isset($this->dataCurrenciesRate)) {
+      $this->loadCurrenciesRateData();
+    }
+    return $this->dataCurrenciesRate;
+  }
+  
+  protected function loadCurrenciesListData() {
     $xml = $this->getCurrenciesXml();
     return $this->parseCurrenciesXml($xml);
+  }
+
+  public function getCurrenciesListData() {
+    if (!isset($this->dataCurrenciesList)) {
+      $this->loadCurrenciesListData();
+    }
+    return $this->dataCurrenciesList;
   }
   
   public function setDate($date) {
@@ -116,11 +130,13 @@ class NBRBCurrencies {
       // were detected. Catch any exception and return failure (NULL).
       return NULL;
     }
-    // If there is no valid project data, the XML is invalid, so return failure.
-    if (!isset($xml->short_name)) {
-      return NULL;
-    }
+    $result = $xml->xpath('//Currency ');
     $data = array();
+    if (!empty($result)) {
+      foreach ($result as $currency) {
+        $data[] = (array) $currency;
+      }
+    }
     $this->dataCurrenciesRate = $data;
     return $data;
   }
@@ -136,12 +152,12 @@ class NBRBCurrencies {
       return NULL;
     }
     $result = $xml->xpath('//Currency ');
+    $data = array();
     if (!empty($result)) {
       foreach ($result as $currency) {
-        $a = $currency;
+        $data[] = (array) $currency;
       }
     }
-    $data = array();
     $this->dataCurrenciesList = $data;
     return $data;
   }

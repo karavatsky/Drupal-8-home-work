@@ -51,7 +51,6 @@ class NBRBCurrenciesBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    $a = 1;
     return new static(
       $configuration,
       $plugin_id,
@@ -66,7 +65,6 @@ class NBRBCurrenciesBlock extends BlockBase implements ContainerFactoryPluginInt
   public function build() {
     $this->nbrbCurrencies->setDate('01/03/2014');
     $data = $this->nbrbCurrencies->getCurrenciesRateData();
-    $a = 1;
     return [
       '#type' => 'markup',
       '#markup' => '<b>Returned by Service: </b>',
@@ -78,12 +76,23 @@ class NBRBCurrenciesBlock extends BlockBase implements ContainerFactoryPluginInt
    */
   public function blockForm($form, FormStateInterface $form_state) {
     $data = $this->nbrbCurrencies->getCurrenciesListData();
+    $options = array();
+    foreach ($data as $currency) {
+      $options[$currency['CharCode']] = $currency['Name'];  
+    }
     $form['currencies'] = array(
       '#type' => 'checkboxes',
-      '#options' => array('SAT' => $this->t('SAT'), 'ACT' => $this->t('ACT')),
+      '#options' => $options,
       '#title' => $this->t('Currencies for display'),
+      '#default_value' => $this->configuration['currencies'],
     );
     return $form;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->configuration['currencies'] = $form_state->getValue('currencies');
+  }
 }
