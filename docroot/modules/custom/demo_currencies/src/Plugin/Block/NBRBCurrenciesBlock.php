@@ -63,12 +63,36 @@ class NBRBCurrenciesBlock extends BlockBase implements ContainerFactoryPluginInt
    * {@inheritdoc}
    */
   public function build() {
-    $this->nbrbCurrencies->setDate('01/03/2014');
+    $currencies = $this->configuration['currencies'];
     $data = $this->nbrbCurrencies->getCurrenciesRateData();
-    return [
-      '#type' => 'markup',
-      '#markup' => '<b>Returned by Service: </b>',
-    ];
+    $show_currencies = [];
+    foreach ($currencies as $code => $currency) {
+      if (!empty($currency)) {
+        $show_currencies[$code] = $data[$code];
+      }
+    }
+    if (!empty($show_currencies)) {
+      // Only display the block if there are items to show.
+      $build['#cache']['max-age'] = 0;
+      $build['list'] = [
+        '#theme' => 'item_list',
+        '#items' => [],
+      ];
+      foreach ($show_currencies as $item) {
+        if ($item) {
+          $build['list']['#items'][$item['CharCode']] = [
+            '#type' => 'markup',
+            '#markup' => '<b>' . $item['Name'] . ': </b>' . $item['Rate'],
+          ];
+        }
+      }
+      $build['more_link'] = [
+        '#type' => 'more_link',
+        '#url' => 'more_currencies',
+        '#attributes' => ['title' => $this->t("View More Currencies.")],
+      ];
+      return $build;
+    }
   }
 
   /**

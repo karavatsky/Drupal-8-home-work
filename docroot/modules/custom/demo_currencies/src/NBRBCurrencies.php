@@ -7,6 +7,7 @@
 namespace Drupal\demo_currencies;
 
 use GuzzleHttp\ClientInterface;
+use Drupal\Core\Datetime\DrupalDateTime;
 
 class NBRBCurrencies {
   
@@ -75,7 +76,13 @@ class NBRBCurrencies {
    * @return string
    */
   protected function getXml() {
-    $url = $this->buildUrl($this->date);
+    if (empty($this->date)) {
+      $datetime = new DrupalDateTime();
+      $this->date = $datetime->format('m/d/Y');
+    }
+
+    $url = $this->buildUrl();
+
     $data = '';
     try {
       $data = (string) $this->httpClient
@@ -93,6 +100,7 @@ class NBRBCurrencies {
    * @return string
    */
   protected function getCurrenciesXml() {
+    $data = array();
     try {
       $data = (string) $this->httpClient
         ->get($this->currenciesListUrl)
@@ -134,7 +142,7 @@ class NBRBCurrencies {
     $data = array();
     if (!empty($result)) {
       foreach ($result as $currency) {
-        $data[] = (array) $currency;
+        $data[$currency->CharCode->__toString()] = (array) $currency;
       }
     }
     $this->dataCurrenciesRate = $data;
