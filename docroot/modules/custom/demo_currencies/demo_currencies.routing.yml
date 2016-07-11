@@ -1,0 +1,6 @@
+demo_currencies.all_currencies:
+  path: '/more_currencies'
+  defaults:
+    _controller: '\Drupal\demo_currencies\Controller\DemoCurrenciesController::getAllCurrencies'
+  requirements:
+    _permission: 'view content'

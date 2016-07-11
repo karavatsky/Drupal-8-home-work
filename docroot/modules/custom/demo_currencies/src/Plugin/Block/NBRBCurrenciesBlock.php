@@ -11,6 +11,7 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\demo_currencies\NBRBCurrencies;
+use Drupal\Core\Url;
 
 /**
  * Provides an Currencies block with the chosen currencies.
@@ -87,9 +88,9 @@ class NBRBCurrenciesBlock extends BlockBase implements ContainerFactoryPluginInt
         }
       }
       $build['more_link'] = [
-        '#type' => 'more_link',
-        '#url' => 'more_currencies',
-        '#attributes' => ['title' => $this->t("View More Currencies.")],
+        '#type' => 'link',
+        '#title' => $this->t('View More Currencies.'),
+        '#url' => Url::fromRoute('demo_currencies.all_currencies'),
       ];
       return $build;
     }
