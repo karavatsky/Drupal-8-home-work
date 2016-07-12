@@ -32,13 +32,17 @@ class DemoCurrenciesController extends ControllerBase {
 
   public function getAllCurrencies() {
     $data = $this->nbrbCurrencies->getCurrenciesRateData();
-    $a = 1;
+    $header = ['Num Code', 'Char Code', 'Name', 'Rate'];
+    $rows = [];
+    foreach ($data as $item) {
+      $rows[] = [$item['NumCode'], $item['CharCode'], $item['Name'], $item['Rate']];
+    }
     $build['currencies'] = array(
-      '#prefix' => '<h3>' . $this->t('Feed overview') . '</h3>',
       '#type' => 'table',
       '#header' => $header,
       '#rows' => $rows,
-      '#empty' => $this->t('No feeds available. <a href=":link">Add feed</a>.', array(':link' => $this->url('aggregator.feed_add'))),
+      '#empty' => $this->t('No Currencies available.'),
     );
+    return $build;
   }
 }
