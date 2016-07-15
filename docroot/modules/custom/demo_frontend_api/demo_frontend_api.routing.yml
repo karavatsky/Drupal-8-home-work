@@ -1,0 +1,7 @@
+demo_frontend_api.demo_frontend_api_controller_getElements:
+  path: '/frontend_api/elements/{name}'
+  defaults:
+    _controller: '\Drupal\demo_frontend_api\Controller\DemoFrontendApiController::getElements'
+    _title: 'Render elements'
+  requirements:
+    _permission: 'access content'
