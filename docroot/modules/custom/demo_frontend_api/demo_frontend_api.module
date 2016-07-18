@@ -22,3 +22,15 @@ function demo_frontend_api_help($route_name, RouteMatchInterface $route_match) {
     default:
   }
 }
+
+/**
+ * Implements hook_theme().
+ */
+function demo_frontend_api_theme() {
+  return array(
+    'demo_frontend_api_theme' => array(
+      'template' => 'demo_frontend_api_theme_template',
+      'variables' => ['title' => NULL, 'body' => NULL],
+    ),
+  );
+}
