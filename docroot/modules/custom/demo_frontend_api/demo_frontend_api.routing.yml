@@ -5,3 +5,18 @@ demo_frontend_api.demo_frontend_api_controller_getElements:
     _title: 'Render elements'
   requirements:
     _permission: 'access content'
+# Reponse test
+frontend_api_example.response:
+  path: '/frontend_api/response'
+  defaults:
+    _controller: '\Drupal\demo_frontend_api\Controller\DemoFrontendApiController::testResponse'
+  requirements:
+   _permission: 'access content'
+
+# HTML Reponse test
+frontend_api_example.response_json:
+  path: '/frontend_api/response/html'
+  defaults:
+    _controller: '\Drupal\demo_frontend_api\Controller\DemoFrontendApiController::testHTMLResponse'
+  requirements:
+   _permission: 'access content'

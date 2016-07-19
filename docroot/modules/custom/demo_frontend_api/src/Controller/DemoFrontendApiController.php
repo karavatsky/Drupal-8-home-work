@@ -3,7 +3,8 @@
 namespace Drupal\demo_frontend_api\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-
+use Symfony\Component\HttpFoundation\Response;
+use Zend\Diactoros\Response\HtmlResponse;
 /**
  * Class DemoFrontendApiController.
  *
@@ -52,7 +53,26 @@ class DemoFrontendApiController extends ControllerBase {
       '#body' => 'Body text',
     );
 
+    $build['test_demo_element'] = [
+      '#type' => 'demo_element',
+      '#label' => $this->t('Example Label'),
+      '#description' => $this->t('This is the description text.'),
+    ];
+
     return $build;
   }
 
+  /**
+   * Returns test response.
+   */
+  public function testResponse() {
+    return new Response('Test response text.');
+  }
+
+  /**
+   * Returns test HTML response.
+   */
+  public function testHTMLResponse() {
+    return new HtmlResponse('<div>Test HTML response text.</div>');
+  }
 }

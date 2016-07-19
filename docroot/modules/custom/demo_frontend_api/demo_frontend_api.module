@@ -32,5 +32,8 @@ function demo_frontend_api_theme() {
       'template' => 'demo_frontend_api_theme_template',
       'variables' => ['title' => NULL, 'body' => NULL],
     ),
+    'demo_element' => [
+      'render element' => 'element',
+    ],
   );
 }
