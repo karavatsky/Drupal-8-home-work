@@ -1,0 +1,4 @@
+demo_element_library:
+  css:
+    theme:
+      css/demo_element.css: {}

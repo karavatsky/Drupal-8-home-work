@@ -52,6 +52,12 @@ class DemoElement extends RenderElement {
     // Create a variable.
     $element['#random_number'] = rand(0,100);
 
+    $element['#attached'] = [
+      'library' => [
+        'demo_frontend_api/demo_element_library',
+      ],
+    ];
+
     return $element;
   }
 }
