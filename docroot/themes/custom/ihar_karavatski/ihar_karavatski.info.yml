@@ -1,0 +1,10 @@
+name: Ihar_Karavatski
+type: theme
+description: Subtheme as homework for lesson 5
+package: Demo
+core: 8.x
+libraries:
+  - ihar_karavatski/global-styling
+
+base theme: bartik
+
