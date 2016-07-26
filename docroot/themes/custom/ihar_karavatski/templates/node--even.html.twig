@@ -74,7 +74,7 @@
     node.isSticky() ? 'node--sticky',
     not node.isPublished() ? 'node--unpublished',
     view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
-    'clearfix', parity_class, 'kjljkljkljkljkljkl',
+    'clearfix',
   ]
 %}
 {{ attach_library('classy/node') }}
@@ -82,7 +82,7 @@
   <header>
     {{ title_prefix }}
     {% if not page %}
-      <h1{{ title_attributes.addClass('node__title') }}>
+      <h1{{ title_attributes.addClass('node__title', parity_class) }}>
         <a href="{{ url }}" rel="bookmark">{{ label }}</a>
       </h1>
     {% endif %}

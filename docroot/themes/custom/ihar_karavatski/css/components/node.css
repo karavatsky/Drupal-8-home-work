@@ -1,0 +1,12 @@
+/**
+ * @file
+ * Visual styles for ihar_karavatski's node component.
+ */
+
+.node--view-mode-teaser .node-even  a {
+  color: #bbbbbb;
+}
+
+.node--view-mode-teaser .node-odd a {
+  color: #1a1a1a;
+}

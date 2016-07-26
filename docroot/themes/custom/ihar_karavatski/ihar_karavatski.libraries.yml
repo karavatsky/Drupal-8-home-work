@@ -1,0 +1,8 @@
+global-styling:
+  version: VERSION
+  css:
+    base:
+    component:
+      css/components/node.css: {}
+    layout:
+    theme:
