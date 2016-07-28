@@ -1,0 +1,8 @@
+# Curency menu items definition
+entity.curency.collection:
+  title: 'Curency'
+  route_name: entity.curency.collection
+  description: 'List Curency (bundles)'
+  parent: system.admin_structure
+  weight: 99
+

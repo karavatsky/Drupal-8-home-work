@@ -1,0 +1,16 @@
+demo_currencies.curency.*:
+  type: config_entity
+  label: 'Curency config'
+  mapping:
+    code:
+      type: string
+      label: 'Code'
+    name:
+      type: label
+      label: 'Name'
+    display_on_page:
+      type: boolean
+      label: 'Display on currencies page'
+    display_in_block:
+      type: boolean
+      label: 'Display in block'

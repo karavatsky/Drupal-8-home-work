@@ -1,0 +1,6 @@
+entity.curency.add_form:
+  route_name: 'entity.curency.add_form'
+  title: 'Add Curency'
+  appears_on:
+    - entity.curency.collection
+
