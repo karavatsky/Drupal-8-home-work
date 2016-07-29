@@ -26,7 +26,7 @@ use Drupal\demo_currencies\CurencyInterface;
  *   admin_permission = "administer site configuration",
  *   entity_keys = {
  *     "code" = "code",
- *     "name" = "name",
+ *     "name" = "label",
  *   },
  *   links = {
  *     "canonical" = "/admin/structure/curency/{curency}",
@@ -50,7 +50,7 @@ class Curency extends ConfigEntityBase implements CurencyInterface {
    *
    * @var string
    */
-  protected $name;
+  protected $label;
 
   /**
    * Define displaying on currency page.
@@ -66,4 +66,24 @@ class Curency extends ConfigEntityBase implements CurencyInterface {
    */
   protected $display_in_block;
 
+  /**
+   * {@inheritdoc}
+   */
+  public function getCode() {
+    return $this->code;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getOnPageOpt() {
+    return $this->display_on_page;
+  }l
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getInBlockOpt() {
+    return $this->display_in_block;
+  }
 }

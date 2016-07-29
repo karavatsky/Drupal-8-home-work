@@ -20,20 +20,32 @@ class CurencyForm extends EntityForm {
     $curency = $this->entity;
     $form['label'] = array(
       '#type' => 'textfield',
-      '#title' => $this->t('Label'),
+      '#title' => $this->t('Name'),
       '#maxlength' => 255,
       '#default_value' => $curency->label(),
       '#description' => $this->t("Label for the Curency."),
       '#required' => TRUE,
     );
 
-    $form['id'] = array(
-      '#type' => 'machine_name',
-      '#default_value' => $curency->id(),
-      '#machine_name' => array(
-        'exists' => '\Drupal\demo_currencies\Entity\Curency::load',
-      ),
-      '#disabled' => !$curency->isNew(),
+    $form['code'] = array(
+      '#type' => 'textfield',
+      '#title' => $this->t('Code'),
+      '#maxlength' => 255,
+      '#default_value' => $curency->code(),
+      '#description' => $this->t("Code of the Curency."),
+      '#required' => TRUE,
+    );
+
+    $form['display_on_page'] = array(
+      '#type' => 'checkbox',
+      '#title' => $this->t('Display on page'),
+      '#default_value' => $curency->code(),
+    );
+
+    $form['display_on_page'] = array(
+      '#type' => 'checkbox',
+      '#title' => $this->t('Display on page'),
+      '#default_value' => $curency->code(),
     );
 
     /* You will need additional form elements for your custom properties. */

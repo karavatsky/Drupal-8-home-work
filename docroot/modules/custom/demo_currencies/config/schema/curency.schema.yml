@@ -5,7 +5,7 @@ demo_currencies.curency.*:
     code:
       type: string
       label: 'Code'
-    name:
+    label:
       type: label
       label: 'Name'
     display_on_page:
