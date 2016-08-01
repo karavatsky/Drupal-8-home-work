@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * Contains install and update functions for demo currencies module.
+ */
+
+use Drupal\demo_currencies\NBRBCurrencies;
+use Drupal\demo_currencies\Entity\Currency;
+
+/**
+ * Implements hook_install().
+ */
+function demo_currencies_install() {
+  $nbrb_currencies = \Drupal::service('demo_currencies.nbrb_currencies');
+  $data = $nbrb_currencies->getCurrenciesListData();
+  $currencies = [];
+  foreach ($data as $currency) {
+    $currencies[$currency['CharCode']] = $currency['Name'];
+  }
+  foreach ($currencies as $code => $currency) {
+    $currency = Currency::Create([
+      'id' => $code,
+      'label' => $currency,
+      'display_on_page' => TRUE,
+    ]);
+    $currency->save();
+  }
+}

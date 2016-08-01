@@ -5,18 +5,10 @@ namespace Drupal\demo_currencies;
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
 
 /**
- * Provides an interface for defining Curency entities.
+ * Provides an interface for defining Currency entities.
  */
-interface CurencyInterface extends ConfigEntityInterface {
+interface CurrencyInterface extends ConfigEntityInterface {
   // Add get/set methods for your configuration properties here.
-
-  /**
-   * Gets code of the currency.
-   *
-   * @return string
-   *   Code of the currency.
-   */
-  public function getCode();
 
   /**
    * Gets display on page option.

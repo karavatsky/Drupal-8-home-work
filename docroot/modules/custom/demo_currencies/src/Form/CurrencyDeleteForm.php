@@ -7,9 +7,9 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
 /**
- * Builds the form to delete Curency entities.
+ * Builds the form to delete Currency entities.
  */
-class CurencyDeleteForm extends EntityConfirmFormBase {
+class CurrencyDeleteForm extends EntityConfirmFormBase {
   /**
    * {@inheritdoc}
    */
@@ -21,7 +21,7 @@ class CurencyDeleteForm extends EntityConfirmFormBase {
    * {@inheritdoc}
    */
   public function getCancelUrl() {
-    return new Url('entity.curency.collection');
+    return new Url('entity.currency.collection');
   }
 
   /**

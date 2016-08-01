@@ -7,12 +7,12 @@ use Drupal\Core\Entity\Routing\AdminHtmlRouteProvider;
 use Symfony\Component\Routing\Route;
 
 /**
- * Provides routes for Curency entities.
+ * Provides routes for Currency entities.
  *
  * @see Drupal\Core\Entity\Routing\AdminHtmlRouteProvider
  * @see Drupal\Core\Entity\Routing\DefaultHtmlRouteProvider
  */
-class CurencyHtmlRouteProvider extends AdminHtmlRouteProvider {
+class CurrencyHtmlRouteProvider extends AdminHtmlRouteProvider {
   /**
    * {@inheritdoc}
    */

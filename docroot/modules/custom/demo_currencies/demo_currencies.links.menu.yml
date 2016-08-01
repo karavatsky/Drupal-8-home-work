@@ -1,8 +1,8 @@
-# Curency menu items definition
-entity.curency.collection:
-  title: 'Curency'
-  route_name: entity.curency.collection
-  description: 'List Curency (bundles)'
+# Currency menu items definition
+entity.currency.collection:
+  title: 'Currency'
+  route_name: entity.currency.collection
+  description: 'List Currency (bundles)'
   parent: system.admin_structure
   weight: 99
 

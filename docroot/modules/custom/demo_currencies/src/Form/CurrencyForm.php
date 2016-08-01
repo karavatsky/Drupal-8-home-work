@@ -6,46 +6,46 @@ use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Class CurencyForm.
+ * Class CurrencyForm.
  *
  * @package Drupal\demo_currencies\Form
  */
-class CurencyForm extends EntityForm {
+class CurrencyForm extends EntityForm {
   /**
    * {@inheritdoc}
    */
   public function form(array $form, FormStateInterface $form_state) {
     $form = parent::form($form, $form_state);
 
-    $curency = $this->entity;
+    $currency = $this->entity;
     $form['label'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Name'),
       '#maxlength' => 255,
-      '#default_value' => $curency->label(),
-      '#description' => $this->t("Label for the Curency."),
+      '#default_value' => $currency->label(),
+      '#description' => $this->t("Label for the Currency."),
       '#required' => TRUE,
     );
 
-    $form['code'] = array(
+    $form['id'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Code'),
       '#maxlength' => 255,
-      '#default_value' => $curency->code(),
-      '#description' => $this->t("Code of the Curency."),
+      '#default_value' => $currency->id(),
+      '#description' => $this->t("Code of the Currency."),
       '#required' => TRUE,
     );
 
     $form['display_on_page'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Display on page'),
-      '#default_value' => $curency->code(),
+      '#default_value' => $currency->getOnPageOpt(),
     );
 
     $form['display_on_page'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('Display on page'),
-      '#default_value' => $curency->code(),
+      '#default_value' => $currency->getInBlockOpt(),
     );
 
     /* You will need additional form elements for your custom properties. */
@@ -57,22 +57,22 @@ class CurencyForm extends EntityForm {
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    $curency = $this->entity;
-    $status = $curency->save();
+    $currency = $this->entity;
+    $status = $currency->save();
 
     switch ($status) {
       case SAVED_NEW:
-        drupal_set_message($this->t('Created the %label Curency.', [
-          '%label' => $curency->label(),
+        drupal_set_message($this->t('Created the %label Currency.', [
+          '%label' => $currency->label(),
         ]));
         break;
 
       default:
-        drupal_set_message($this->t('Saved the %label Curency.', [
-          '%label' => $curency->label(),
+        drupal_set_message($this->t('Saved the %label Currency.', [
+          '%label' => $currency->label(),
         ]));
     }
-    $form_state->setRedirectUrl($curency->urlInfo('collection'));
+    $form_state->setRedirectUrl($currency->urlInfo('collection'));
   }
 
 }

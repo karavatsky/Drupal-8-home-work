@@ -6,15 +6,15 @@ use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
- * Provides a listing of Curency entities.
+ * Provides a listing of Currency entities.
  */
-class CurencyListBuilder extends ConfigEntityListBuilder {
+class CurrencyListBuilder extends ConfigEntityListBuilder {
   /**
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['label'] = $this->t('Curency');
-    $header['id'] = $this->t('Machine name');
+    $header['label'] = $this->t('Currency');
+    $header['id'] = $this->t('Code');
     return $header + parent::buildHeader();
   }
 

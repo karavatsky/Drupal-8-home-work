@@ -1,8 +1,8 @@
-demo_currencies.curency.*:
+demo_currencies.currency.*:
   type: config_entity
-  label: 'Curency config'
+  label: 'Currency config'
   mapping:
-    code:
+    id:
       type: string
       label: 'Code'
     label:
