@@ -13,8 +13,8 @@ class CurrencyListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['label'] = $this->t('Currency');
-    $header['id'] = $this->t('Code');
+    $header['name'] = $this->t('Currency');
+    $header['code'] = $this->t('Code');
     return $header + parent::buildHeader();
   }
 
@@ -22,8 +22,8 @@ class CurrencyListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    $row['label'] = $entity->label();
-    $row['id'] = $entity->id();
+    $row['name'] = $entity->label();
+    $row['code'] = $entity->id();
     // You probably want a few more properties here...
     return $row + parent::buildRow($entity);
   }

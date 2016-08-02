@@ -20,8 +20,8 @@ function demo_currencies_install() {
   }
   foreach ($currencies as $code => $currency) {
     $currency = Currency::Create([
-      'id' => $code,
-      'label' => $currency,
+      'code' => $code,
+      'name' => $currency,
       'display_on_page' => TRUE,
     ]);
     $currency->save();

@@ -18,7 +18,7 @@ class CurrencyForm extends EntityForm {
     $form = parent::form($form, $form_state);
 
     $currency = $this->entity;
-    $form['label'] = array(
+    $form['name'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Name'),
       '#maxlength' => 255,
@@ -27,7 +27,7 @@ class CurrencyForm extends EntityForm {
       '#required' => TRUE,
     );
 
-    $form['id'] = array(
+    $form['code'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Code'),
       '#maxlength' => 255,
@@ -42,9 +42,9 @@ class CurrencyForm extends EntityForm {
       '#default_value' => $currency->getOnPageOpt(),
     );
 
-    $form['display_on_page'] = array(
+    $form['display_in_block'] = array(
       '#type' => 'checkbox',
-      '#title' => $this->t('Display on page'),
+      '#title' => $this->t('Display in block'),
       '#default_value' => $currency->getInBlockOpt(),
     );
 

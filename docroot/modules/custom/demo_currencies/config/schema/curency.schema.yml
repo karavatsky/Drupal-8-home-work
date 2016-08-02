@@ -2,10 +2,10 @@ demo_currencies.currency.*:
   type: config_entity
   label: 'Currency config'
   mapping:
-    id:
+    code:
       type: string
       label: 'Code'
-    label:
+    name:
       type: label
       label: 'Name'
     display_on_page:

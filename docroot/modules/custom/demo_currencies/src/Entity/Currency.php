@@ -25,8 +25,8 @@ use Drupal\demo_currencies\CurrencyInterface;
  *   config_prefix = "currency",
  *   admin_permission = "administer site configuration",
  *   entity_keys = {
- *     "code" = "id",
- *     "name" = "label",
+ *     "id" = "code",
+ *     "label" = "name",
  *   },
  *   links = {
  *     "canonical" = "/admin/structure/currency/{currency}",
@@ -50,7 +50,7 @@ class Currency extends ConfigEntityBase implements CurrencyInterface {
    *
    * @var string
    */
-  protected $label;
+  protected $name;
 
   /**
    * Define displaying on currency page.
@@ -65,6 +65,13 @@ class Currency extends ConfigEntityBase implements CurrencyInterface {
    * @var bool
    */
   protected $display_in_block;
+
+  /**
+   * {@inheritdoc}
+   */
+  public function id() {
+    return $this->code;
+  }
 
   /**
    * {@inheritdoc}
