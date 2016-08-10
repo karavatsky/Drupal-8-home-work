@@ -1,0 +1,33 @@
+<?php
+/**
+ * @file
+ * Currencies module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function demo_currencies_theme() {
+  $theme['currency_rate'] = array(
+    'render element' => 'elements',
+    'file' => 'currency_rate.page.inc',
+    'template' => 'currency_rate',
+  );
+  return $theme;
+}
+
+function demo_currencies_entity_base_field_info_alter(&$fields, \Drupal\Core\Entity\EntityTypeInterface $entity_type) {
+  if ($entity_type->id() === 'currency') {
+    // $title = $fields['title'];
+    // $title->addPropertyConstraints('value', ['Length' => ['max' => 5]]);
+  }
+}
+
+function demo_currencies_entity_type_alter(array &$entity_types) {
+  // $node=$entity_types['node'];
+  // $node->addConstraint('ConstraintPluginName',['array','of','options']);
+}
+
+function demo_currencies_entity_bundle_field_info_alter(&$fields, \Drupal\Core\Entity\EntityTypeInterface $entity_type, $bundle) {
+ $a = 1;
+}

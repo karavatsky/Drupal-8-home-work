@@ -4,3 +4,8 @@ entity.currency.add_form:
   appears_on:
     - entity.currency.collection
 
+entity.currency_rate.add_form:
+  route_name: entity.currency_rate.add_form
+  title: 'Add Currency rate'
+  appears_on:
+    - entity.currency_rate.collection
