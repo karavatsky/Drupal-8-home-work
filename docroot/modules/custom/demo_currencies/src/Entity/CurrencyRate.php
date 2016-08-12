@@ -222,6 +222,22 @@ class CurrencyRate extends ContentEntityBase implements CurrencyRateInterface {
       ->setLabel(t('Changed'))
       ->setDescription(t('The time that the entity was last edited.'));
 
+    $fields['code'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Code'))
+      ->setDescription(t('The code of the Currency rate.'))
+      ->setRequired(TRUE)
+      ->setConstraints([
+        'Length' => ['min' => 3],
+      ]);
+
+    $fields['date'] = BaseFieldDefinition::create('string')
+      ->setLabel(t('Date'))
+      ->setDescription(t('The date of the Currency rate.'))
+      ->setRequired(TRUE)
+      ->setConstraints([
+        'Length' => ['min' => 3],
+      ]);
+
     return $fields;
   }
 
