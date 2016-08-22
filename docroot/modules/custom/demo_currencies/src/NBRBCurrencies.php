@@ -175,8 +175,8 @@ class NBRBCurrencies {
     return $data;
   }
 
-  static function getCurrencyRateByDateAndCode(DrupalDateTime $date, $code) {
-    $query = \Drupal::entityQuery('CurrencyRate')
+  static function getCurrencyRateByDateAndCode($date, $code) {
+    $query = \Drupal::entityQuery('currency_rate')
       ->condition('date', $date)
       ->condition('code', $code);
     $nids = $query->execute();

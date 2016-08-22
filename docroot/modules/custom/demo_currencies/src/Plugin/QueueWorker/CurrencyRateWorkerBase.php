@@ -80,19 +80,25 @@ abstract class CurrencyRateWorkerBase extends QueueWorkerBase implements Contain
   protected function createCurrencyRatesWork($worker, $item) {
     $rate_date = new DrupalDateTime($item['date']);
     $rate_date_string = $rate_date->__toString();
-    $check_currency_rate = NBRBCurrencies::getCurrencyRateByDateAndCode($item['CharCode'], $rate_date_string);
+    $check_currency_rate = NBRBCurrencies::getCurrencyRateByDateAndCode($rate_date_string, $item['CharCode']);
     if ($check_currency_rate) {
       return;
     }
     $rate_date->sub(new \DateInterval('P1D'));
     $day_ago_currency_rate = NBRBCurrencies::getCurrencyRateByDateAndCode($item['CharCode'], $rate_date->__toString());
-    $day_ago_currency_rate->rate->value();
+    $day_ago_rate_value = $day_ago_currency_rate->rate;
+    $prev_day_diff = 0;
+    if ($day_ago_rate_value) {
+      $prev_day_diff = $item['Rate'] - $day_ago_rate_value;
+    }
     $rate = CurrencyRate::Create([
       'code' => $item['CharCode'],
       'name' => $item['Name'],
       'date' => $rate_date_string,
-      'display_on_page' => TRUE,
+      'rate' => $item['Rate'],
+      'prev_day_diff' => $prev_day_diff,
     ]);
+
     $rate->save();
 
     $this->logger->get('demo_currencies')->info(
