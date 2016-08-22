@@ -6,6 +6,7 @@
 
 namespace Drupal\demo_currencies;
 
+use Drupal\demo_currencies\Entity\CurrencyRate;
 use GuzzleHttp\ClientInterface;
 use Drupal\Core\Datetime\DrupalDateTime;
 
@@ -68,6 +69,10 @@ class NBRBCurrencies {
   
   public function setDate($date) {
     $this->date = $date;
+  }
+
+  public function getDate() {
+    return $this->date;
   }
 
   /**
@@ -168,6 +173,17 @@ class NBRBCurrencies {
     }
     $this->dataCurrenciesList = $data;
     return $data;
+  }
+
+  static function getCurrencyRateByDateAndCode(DrupalDateTime $date, $code) {
+    $query = \Drupal::entityQuery('CurrencyRate')
+      ->condition('date', $date)
+      ->condition('code', $code);
+    $nids = $query->execute();
+    if ($nids) {
+      return CurrencyRate::load(current($nids));
+    }
+    return NULL;
   }
 }
 

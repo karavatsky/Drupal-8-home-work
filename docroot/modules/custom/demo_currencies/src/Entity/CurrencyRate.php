@@ -226,17 +226,69 @@ class CurrencyRate extends ContentEntityBase implements CurrencyRateInterface {
       ->setLabel(t('Code'))
       ->setDescription(t('The code of the Currency rate.'))
       ->setRequired(TRUE)
-      ->setConstraints([
-        'Length' => ['min' => 3],
-      ]);
+      ->setPropertyConstraints('value', ['Length' => ['max' => 3, 'min' => 3]])
+      ->setSettings(array(
+        'default_value' => '',
+        'text_processing' => 0,
+      ))
+      ->setDisplayOptions('view', array(
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => -3,
+      ))
+      ->setDisplayOptions('form', array(
+        'type' => 'string_textfield',
+        'weight' => -3,
+        'settings' => array(
+          'size' => 5,
+        ),
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
 
-    $fields['date'] = BaseFieldDefinition::create('string')
+    $fields['date'] = BaseFieldDefinition::create('datetime')
       ->setLabel(t('Date'))
       ->setDescription(t('The date of the Currency rate.'))
       ->setRequired(TRUE)
-      ->setConstraints([
-        'Length' => ['min' => 3],
-      ]);
+      ->setSetting('datetime_type', 'date')
+      ->setDisplayOptions('view', array(
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => -2,
+      ))
+      ->setDisplayOptions('form', array(
+        'type' => 'datetime_default',
+        'weight' => -2,
+        'settings' => array(
+          'size' => 5,
+        ),
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['rate'] = BaseFieldDefinition::create('decimal')
+      ->setLabel(t('Rate'))
+      ->setDescription(t('The rate of the Currency.'))
+      ->setRequired(TRUE)
+      ->setDisplayOptions('view', array(
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => -1,
+      ))
+      ->setDisplayOptions('form', array(
+        'type' => 'datetime_default',
+        'weight' => -1,
+        'settings' => array(
+          'size' => 5,
+        ),
+      ))
+      ->setDisplayConfigurable('form', TRUE)
+      ->setDisplayConfigurable('view', TRUE);
+
+    $fields['prev_day_diff'] = BaseFieldDefinition::create('decimal')
+      ->setLabel(t('Previous day difference'))
+      ->setDescription(t('Difference of rate with the previous day.'))
+      ->setRequired(TRUE);
 
     return $fields;
   }
