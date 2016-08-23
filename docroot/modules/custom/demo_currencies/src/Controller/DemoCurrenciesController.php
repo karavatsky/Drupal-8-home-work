@@ -39,10 +39,10 @@ class DemoCurrenciesController extends ControllerBase {
     if ($ids) {
       return CurrencyRate::load(current($nids));
     }
-    $header = ['Char Code', 'Name', 'Rate'];
+    $hader = ['Char Code', 'Name', 'Rate'];
     $rows = [];
     foreach ($ids as $id) {
-      $rate = CurrencyRate::load($nid);
+      $rate = CurrencyRate::load($id);
       $rows[] = [$rate->code, $rate->name, $rate->rate];
     }
     $build['currencies'] = array(
