@@ -79,7 +79,7 @@ abstract class CurrencyRateWorkerBase extends QueueWorkerBase implements Contain
    */
   protected function createCurrencyRatesWork($worker, $item) {
     $rate_date = new DrupalDateTime($item['date']);
-    $rate_date_string = $rate_date->__toString();
+    $rate_date_string = $rate_date->format('Y-m-d');
     $check_currency_rate = NBRBCurrencies::getCurrencyRateByDateAndCode($rate_date_string, $item['CharCode']);
     if ($check_currency_rate) {
       return;
@@ -93,7 +93,7 @@ abstract class CurrencyRateWorkerBase extends QueueWorkerBase implements Contain
     }
     $rate = CurrencyRate::Create([
       'code' => $item['CharCode'],
-      'name' => $item['Name'],
+      'name' => $item['Name'] . ' - ' . $rate_date_string,
       'date' => $rate_date_string,
       'rate' => $item['Rate'],
       'prev_day_diff' => $prev_day_diff,

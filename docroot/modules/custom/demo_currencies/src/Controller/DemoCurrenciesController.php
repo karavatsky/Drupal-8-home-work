@@ -31,11 +31,19 @@ class DemoCurrenciesController extends ControllerBase {
   }
 
   public function getAllCurrencies() {
-    $data = $this->nbrbCurrencies->getCurrenciesRateData();
-    $header = ['Num Code', 'Char Code', 'Name', 'Rate'];
+    $current_date = new DrupalDateTime();
+    $date = $current_date->format('Y-m-d');
+    $query = \Drupal::entityQuery('currency_rate')
+      ->condition('date', $date);
+    $ids = $query->execute();
+    if ($ids) {
+      return CurrencyRate::load(current($nids));
+    }
+    $header = ['Char Code', 'Name', 'Rate'];
     $rows = [];
-    foreach ($data as $item) {
-      $rows[] = [$item['NumCode'], $item['CharCode'], $item['Name'], $item['Rate']];
+    foreach ($ids as $id) {
+      $rate = CurrencyRate::load($nid);
+      $rows[] = [$rate->code, $rate->name, $rate->rate];
     }
     $build['currencies'] = array(
       '#type' => 'table',
