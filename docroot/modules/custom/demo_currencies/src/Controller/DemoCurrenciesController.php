@@ -6,8 +6,11 @@
 namespace Drupal\demo_currencies\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\demo_currencies\Entity\Currency;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\demo_currencies\NBRBCurrencies;
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\demo_currencies\Entity\CurrencyRate;
 
 class DemoCurrenciesController extends ControllerBase {
 
@@ -36,14 +39,14 @@ class DemoCurrenciesController extends ControllerBase {
     $query = \Drupal::entityQuery('currency_rate')
       ->condition('date', $date);
     $ids = $query->execute();
-    if ($ids) {
-      return CurrencyRate::load(current($nids));
-    }
-    $hader = ['Char Code', 'Name', 'Rate'];
+    $header = ['Char Code', 'Name', 'Rate'];
     $rows = [];
     foreach ($ids as $id) {
       $rate = CurrencyRate::load($id);
-      $rows[] = [$rate->code, $rate->name, $rate->rate];
+      $currency = Currency::load($rate->code->value);
+      if ($currency->getOnPageOpt()) {
+        $rows[] = [$rate->code->value, $rate->name->value, $rate->rate->value];
+      }
     }
     $build['currencies'] = array(
       '#type' => 'table',

@@ -276,7 +276,6 @@ class CurrencyRate extends ContentEntityBase implements CurrencyRateInterface {
         'weight' => -1,
       ))
       ->setDisplayOptions('form', array(
-        'type' => 'datetime_default',
         'weight' => -1,
         'settings' => array(
           'size' => 5,
@@ -288,7 +287,13 @@ class CurrencyRate extends ContentEntityBase implements CurrencyRateInterface {
     $fields['prev_day_diff'] = BaseFieldDefinition::create('decimal')
       ->setLabel(t('Previous day difference'))
       ->setDescription(t('Difference of rate with the previous day.'))
-      ->setRequired(TRUE);
+      ->setRequired(TRUE)
+      ->setDisplayOptions('view', array(
+        'label' => 'above',
+        'type' => 'string',
+        'weight' => -1,
+      ))
+      ->setDisplayConfigurable('view', TRUE);
 
     return $fields;
   }
