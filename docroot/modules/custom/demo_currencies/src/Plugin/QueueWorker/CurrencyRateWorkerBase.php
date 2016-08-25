@@ -85,8 +85,8 @@ abstract class CurrencyRateWorkerBase extends QueueWorkerBase implements Contain
       return;
     }
     $rate_date->sub(new \DateInterval('P1D'));
-    $day_ago_currency_rate = NBRBCurrencies::getCurrencyRateByDateAndCode($item['CharCode'], $rate_date->__toString());
-    $day_ago_rate_value = $day_ago_currency_rate->rate;
+    $day_ago_currency_rate = NBRBCurrencies::getCurrencyRateByDateAndCode($rate_date->format('Y-m-d'), $item['CharCode']);
+    $day_ago_rate_value = $day_ago_currency_rate->rate->value;
     $prev_day_diff = 0;
     if ($day_ago_rate_value) {
       $prev_day_diff = $item['Rate'] - $day_ago_rate_value;
