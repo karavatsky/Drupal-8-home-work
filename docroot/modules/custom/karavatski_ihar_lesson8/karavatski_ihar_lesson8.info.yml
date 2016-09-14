@@ -1,0 +1,5 @@
+name: Karavatski Ihar Lesson8
+type: module
+description: Drupal school cache and logging lesson
+core: 8.x
+package: Demo

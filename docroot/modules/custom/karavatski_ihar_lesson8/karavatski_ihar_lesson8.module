@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains karavatski_ihar_lesson8.module..
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function karavatski_ihar_lesson8_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the karavatski_ihar_lesson8 module.
+    case 'help.page.karavatski_ihar_lesson8':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Drupal school cache and logging lesson') . '</p>';
+      return $output;
+
+    default:
+  }
+}
