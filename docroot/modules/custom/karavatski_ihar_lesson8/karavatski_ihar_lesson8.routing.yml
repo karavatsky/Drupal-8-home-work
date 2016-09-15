@@ -1,0 +1,17 @@
+
+# In order to to create pages it is necessary to define routes for them.
+# A route maps a URL path to a controller. It defines what function
+# or method will be called when a URL is accessed.
+# If the user accesses http://drupal8.dev/logging_and_cache, the routing
+# system will look for a route with that path. In this case it will find a
+# match, and execute the _controller callback. In this case the callback is
+# defined as a classname
+# ("\Drupal\karavatski_ihar_lesson8\Controller\CacheAndLogController")
+# and a method ("logginAndCache").
+karavatski_ihar_lesson8.cache_and_log_controller_logginAndCache:
+  path: 'logging_and_cache'
+  defaults:
+    _form: '\Drupal\cache_example\Forms\CacheExampleForm'
+    _title: 'Logging & cache'
+  requirements:
+    _permission: 'access content'
