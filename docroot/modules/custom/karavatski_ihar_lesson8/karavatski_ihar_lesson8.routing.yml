@@ -9,9 +9,9 @@
 # ("\Drupal\karavatski_ihar_lesson8\Controller\CacheAndLogController")
 # and a method ("logginAndCache").
 karavatski_ihar_lesson8.cache_and_log_controller_logginAndCache:
-  path: 'logging_and_cache'
+  path: 'ihar_karavatski_lesson8'
   defaults:
-    _form: '\Drupal\cache_example\Forms\CacheExampleForm'
+    _form: '\Drupal\karavatski_ihar_lesson8\Form\LogAndCacheForm'
     _title: 'Logging & cache'
   requirements:
     _permission: 'access content'

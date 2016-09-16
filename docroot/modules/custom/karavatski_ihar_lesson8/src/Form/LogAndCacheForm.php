@@ -5,7 +5,7 @@ namespace Drupal\karavatski_ihar_lesson8\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Logger\LoggerChannelFactory;
+use Drupal\karavatski_ihar_lesson8\MultipleChannelsService;
 
 /**
  * Class LogAndCacheForm.
@@ -14,21 +14,22 @@ use Drupal\Core\Logger\LoggerChannelFactory;
  */
 class LogAndCacheForm extends FormBase {
 
+  const CID = 'karavatski_ihar_lesson8:message';
   /**
-   * Drupal\Core\Logger\LoggerChannelFactory definition.
+   * \Drupal\karavatski_ihar_lesson8\LoggerChannelFactory definition.
    *
-   * @var Drupal\Core\Logger\LoggerChannelFactory
+   * @var \Drupal\karavatski_ihar_lesson8\LoggerChannelFactory
    */
   protected $logger_factory;
   public function __construct(
-    LoggerChannelFactory $logger_factory
+    MultipleChannelsService $logger_multiple_channels
   ) {
-    $this->logger_factory = $logger_factory;
+    $this->loggerMultipleChannels = $logger_multiple_channels;
   }
 
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('logger.factory')
+      $container->get('karavatski_ihar_lesson8.log_to_multiple_channels')
     );
   }
 
@@ -44,6 +45,7 @@ class LogAndCacheForm extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    self::showStatusMessages();
     $form['type_a_message'] = array(
       '#type' => 'textfield',
       '#title' => $this->t('Type a message'),
@@ -51,19 +53,43 @@ class LogAndCacheForm extends FormBase {
       '#size' => 64,
     );
     $form['save_message'] = array(
-      '#type' => 'button',
-      '#title' => $this->t('Save message in log & cache'),
+      '#type' => 'submit',
+      '#value' => $this->t('Save message in log & cache'),
+      '#submit' => array(array($this, 'saveMessage')),
+      '#validate' => array(array($this, 'validateMessage')),
     );
     $form['invalidate_cache'] = array(
-      '#type' => 'button',
-      '#title' => $this->t('Invalidate cache'),
+      '#type' => 'submit',
+      '#value' => $this->t('Invalidate cache'),
+      '#submit' => array(array($this, 'invalidateCache')),
     );
     $form['delete_cache'] = array(
-      '#type' => 'button',
-      '#title' => $this->t('Delete cache'),
+      '#type' => 'submit',
+      '#value' => $this->t('Delete cache'),
+      '#submit' => array(array($this, 'deleteCache')),
     );
 
     return $form;
+  }
+
+  public function saveMessage($form, FormStateInterface $form_state) {
+    $message = $form_state->getValue('type_a_message');
+    $this->loggerMultipleChannels->logToOtherChannels($message);
+    \Drupal::cache()->set(self::CID, $message);
+  }
+
+  public function invalidateCache($form, FormStateInterface $form_state) {
+    \Drupal::cache()->invalidate(self::CID);
+  }
+
+  public function deleteCache($form, FormStateInterface $form_state) {
+    \Drupal::cache()->delete(self::CID);
+  }
+
+  public function validateMessage($form, FormStateInterface $form_state) {
+    if ($form_state->isValueEmpty(array('type_a_message'))) {
+      $form_state->setErrorByName('type_a_message', t('Type a message is required.'));
+    }
   }
 
   /**
@@ -73,4 +99,17 @@ class LogAndCacheForm extends FormBase {
 
   }
 
+  private static function showStatusMessages() {
+    $cache_data = \Drupal::cache()->get(self::CID, TRUE);
+    if ($cache_data && $cache_data->valid) {
+      drupal_set_message('Cache item: ' . $cache_data->data . ' - valid.');
+    }
+    elseif ($cache_data && !$cache_data->valid) {
+      drupal_set_message('Cache item: ' . $cache_data->data . ' - invalid.');
+    }
+    else {
+      drupal_set_message('There are no any cache items.');
+    }
+    $a = 1;
+  }
 }

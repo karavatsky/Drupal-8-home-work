@@ -1,0 +1,5 @@
+services:
+  karavatski_ihar_lesson8.log_to_multiple_channels:
+    class: Drupal\karavatski_ihar_lesson8\MultipleChannelsService
+    arguments: ["@logger.factory"]
+
