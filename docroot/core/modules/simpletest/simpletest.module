@@ -9,7 +9,6 @@ use Drupal\Core\Asset\AttachedAssetsInterface;
 use Drupal\Core\Database\Database;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\simpletest\TestBase;
 use Drupal\Core\Test\TestDatabase;
 use Drupal\simpletest\TestDiscovery;
 use Symfony\Component\Process\PhpExecutableFinder;
@@ -470,11 +469,11 @@ function simpletest_log_read($test_id, $database_prefix, $test_class) {
           'line' => $match[4],
           'file' => $match[3],
         );
-        TestBase::insertAssert($test_id, $test_class, FALSE, $match[2], $match[1], $caller);
+        TestDatabase::insertAssert($test_id, $test_class, FALSE, $match[2], $match[1], $caller);
       }
       else {
         // Unknown format, place the entire message in the log.
-        TestBase::insertAssert($test_id, $test_class, FALSE, $line, 'Fatal error');
+        TestDatabase::insertAssert($test_id, $test_class, FALSE, $line, 'Fatal error');
       }
       $found = TRUE;
     }
@@ -570,6 +569,10 @@ function simpletest_generate_file($filename, $width, $lines, $type = 'binary-tex
  * Removes all temporary database tables and directories.
  */
 function simpletest_clean_environment() {
+  // We have to register the test namespaces so that core's test classes are
+  // accessible to these functions.
+  // @todo: Remove/refactor in https://www.drupal.org/node/2800267
+  \Drupal::service('test_discovery')->registerTestNamespaces();
   simpletest_clean_database();
   simpletest_clean_temporary_directories();
   if (\Drupal::config('simpletest.settings')->get('clear_results')) {

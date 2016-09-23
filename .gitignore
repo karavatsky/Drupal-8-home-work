@@ -9,3 +9,4 @@ settings.local.php
 /docroot/sites/default/settings.local.php
 logs/
 docroot/sites/default/sync
+docroot/sites/simpletest
