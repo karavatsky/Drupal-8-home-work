@@ -36,6 +36,23 @@ class EmailDomainValidatorTest extends UnitTestCase {
     $this->assertFalse($result, $email_address.' is a valid Email.');
   }
 
+  /**
+   * Test emails with mocked parser.
+   *
+   * @dataProvider IsValidDomainsDataProvider
+   */
+  public function testIsValidEmailsMockedParser($domain) {
+    $mock_email_parser = $this->getMock('Drupal\testmodule\Email\EmailParser', array('parse'));
+    $this->assertInstanceOf('Drupal\testmodule\Email\EmailParserInterface', $mock_email_parser);
+    $mock_email_entity = $this->getMock('Drupal\testmodule\Email', array('getDomain'));
+    $this->assertInstanceOf('Drupal\testmodule\Email', $mock_email_entity);
+    $mock_email_entity->expects($this->once())->method('getDomain')->will($this->returnValue($domain));
+    $mock_email_parser->expects($this->once())->method('parse')->will($this->returnValue($mock_email_entity));
+    $domainValidator = new EmailDomainValidator($mock_email_parser);
+    $result =  $domainValidator->validate('test@test.test', $this->accepted_domains);
+    $this->assertTrue($result, $domain.' is a valid domain.');
+  }
+
   public function IsValidEmailsDataProvider() {
     return [
       ['test@yahoo.com'],
@@ -48,6 +65,13 @@ class EmailDomainValidatorTest extends UnitTestCase {
       ['test@tut.by'],
       ['test@mail.ru'],
       ['test@my.com'],
+    ];
+  }
+
+  public function IsValidDomainsDataProvider() {
+    return [
+      ['yahoo.com'],
+      ['gmail.com'],
     ];
   }
 }
