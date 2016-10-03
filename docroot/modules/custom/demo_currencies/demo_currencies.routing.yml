@@ -4,3 +4,12 @@ demo_currencies.all_currencies:
     _controller: '\Drupal\demo_currencies\Controller\DemoCurrenciesController::getAllCurrencies'
   requirements:
     _permission: 'view content'
+
+demo_currencies.demo_multilanguage_form:
+  path: 'demo_multilanguage'
+  defaults:
+    _form: '\Drupal\demo_currencies\Form\DemoMultilanguageForm'
+    _title: 'DemoMultilanguageForm'
+  requirements:
+    _access: 'TRUE'
+  
