@@ -32,21 +32,36 @@ class DemoMultilanguageForm extends FormBase {
         'file_validate_extensions' => array('gif png jpg jpeg'),
         'file_validate_size' => array(1048576),
       ),
+//      '#element_validate' => array(
+//        array($this, 'addPhotoElementValidate'),
+//      ),
+//      '#value_callback' => array(
+//        array($this, 'addPhotoValueCallback'),
+//      ),
     ];
 
     $form['submit'] = [
         '#type' => 'submit',
-        '#value' => t('Submit'),
+        '#value' => $this->t('Submit'),
     ];
 
     return $form;
+  }
+
+//  public function addPhotoElementValidate() {
+//    $args = func_get_args();
+//  }
+
+  public function addPhotoValueCallback() {
+    $args = func_get_args();
   }
 
   /**
     * {@inheritdoc}
     */
   public function validateForm(array &$form, FormStateInterface $form_state) {
-    parent::validateForm($form, $form_state);
+l    parent::validateForm($form, $form_state);
+    $_FILES['files']['name']['add_photo'] = 'dfdfdf.png';
   }
 
   /**
