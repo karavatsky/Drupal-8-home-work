@@ -4,7 +4,8 @@ namespace Drupal\demo_currencies\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Component\Transliteration\TransliterationInterface;
 /**
  * Class DemoMultilanguageForm.
  *
@@ -12,6 +13,24 @@ use Drupal\Core\Form\FormStateInterface;
  */
 class DemoMultilanguageForm extends FormBase {
 
+  private $transliteration;
+
+  /**
+   * Dependency injection.
+   *
+   */
+  public function __construct(TransliterationInterface $transliteration) {
+    $this->transliteration = $transliteration;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('transliteration')
+    );
+  }
 
   /**
    * {@inheritdoc}
@@ -58,8 +77,12 @@ class DemoMultilanguageForm extends FormBase {
     file_prepare_directory($destination, FILE_CREATE_DIRECTORY);
     $validators = $form['add_photo']['#upload_validators'];
     $file = file_save_upload('add_photo', $validators, $destination, 0);
-    $file->setFilename('another_name.png');
-    $destination .= '/' . 'another_name.png';
+    $filename = $file->getFilename();
+    // Use this to transliterate some text.
+    $filename = $this->transliteration->transliterate($filename, 'en');
+
+    $file->setFilename($filename);
+    $destination .= '/' . $filename;
     if ($file = file_move($file, $destination)) {
       $form_state->setValue('add_photo', $file);
     }
@@ -73,10 +96,6 @@ class DemoMultilanguageForm extends FormBase {
     elseif ($file === FALSE) {
       drupal_set_message(t('Epic upload FAIL!'), 'error');
     }
-//    foreach ($form_state->getValues() as $key => $value) {
-//        drupal_set_message($key . ': ' . $value);
-//    }
-
   }
 
 }
