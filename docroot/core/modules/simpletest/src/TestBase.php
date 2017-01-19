@@ -20,8 +20,7 @@ use Drupal\Tests\SessionTestTrait;
 /**
  * Base class for Drupal tests.
  *
- * Do not extend this class directly; use either
- * \Drupal\simpletest\WebTestBase or \Drupal\simpletest\KernelTestBase.
+ * Do not extend this class directly; use \Drupal\simpletest\WebTestBase.
  */
 abstract class TestBase {
 
@@ -455,7 +454,33 @@ abstract class TestBase {
    * @see \Drupal\simpletest\TestBase::deleteAssert()
    */
   public static function insertAssert($test_id, $test_class, $status, $message = '', $group = 'Other', array $caller = array()) {
-    return TestDatabase::insertAssert($test_id, $test_class, $status, $message, $group, $caller);
+    // Convert boolean status to string status.
+    if (is_bool($status)) {
+      $status = $status ? 'pass' : 'fail';
+    }
+
+    $caller += array(
+      'function' => 'Unknown',
+      'line' => 0,
+      'file' => 'Unknown',
+    );
+
+    $assertion = array(
+      'test_id' => $test_id,
+      'test_class' => $test_class,
+      'status' => $status,
+      'message' => $message,
+      'message_group' => $group,
+      'function' => $caller['function'],
+      'line' => $caller['line'],
+      'file' => $caller['file'],
+    );
+
+    // We can't use storeAssertion() because this method is static.
+    return self::getDatabaseConnection()
+      ->insert('simpletest')
+      ->fields($assertion)
+      ->execute();
   }
 
   /**
@@ -941,7 +966,7 @@ abstract class TestBase {
         'file' => $object_info->getFileName(),
       );
       foreach ($missing_requirements as $missing_requirement) {
-        TestDatabase::insertAssert($this->testId, $class, FALSE, $missing_requirement, 'Requirements check', $caller);
+        TestBase::insertAssert($this->testId, $class, FALSE, $missing_requirement, 'Requirements check', $caller);
       }
       return;
     }
@@ -1000,7 +1025,7 @@ abstract class TestBase {
         'line' => $method_info->getStartLine(),
         'function' => $class . '->' . $method . '()',
       );
-      $test_completion_check_id = TestDatabase::insertAssert($this->testId, $class, FALSE, 'The test did not complete due to a fatal error.', 'Completion check', $caller);
+      $test_completion_check_id = TestBase::insertAssert($this->testId, $class, FALSE, 'The test did not complete due to a fatal error.', 'Completion check', $caller);
 
       try {
         $this->prepareEnvironment();
@@ -1507,11 +1532,6 @@ abstract class TestBase {
    * Some tests chmod generated files to be read only. During
    * TestBase::restoreEnvironment() and other cleanup operations, these files
    * need to get deleted too.
-   *
-   * @param string $path
-   *   The path about to be deleted.
-   *
-   * @todo Remove/refactor in https://www.drupal.org/node/2800267
    */
   public static function filePreDeleteCallback($path) {
     chmod($path, 0700);
