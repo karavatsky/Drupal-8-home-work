@@ -2,11 +2,11 @@
 
 namespace Drupal\Tests\demo_currencies\Unit;
 
-//use Drupal\Tests\UnitTestCase;
-use Drupal\Core\Block\BlockBase;
-//use Drupal\Component\Plugin\PluginManagerBase;
-//use Drupal\plugin_test\Plugin\MockBlockManager;
+//use Drupal\Core\Block\BlockBase;
+use Drupal\demo_currencies\Entity\CurrencyRate;
+use Drupal\demo_currencies\Entity\Currency;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\Core\Datetime\DrupalDateTime;
 
 /**
  * Demonstrates how to write tests.
@@ -15,10 +15,30 @@ use Drupal\KernelTests\KernelTestBase;
  */
 class NBRBCurrenciesBlockTest extends KernelTestBase {
 
-  private $NBRBCurrenciesBlock;
+  /**
+   * Modules to enable.
+   *
+   * @var array
+   */
+  public static $modules = array(
+    'system',
+    'block',
+    'demo_currencies',
+    'user',
+    'datetime',
+  );
 
   /**
-   * Tests valid Email addresses.
+   * {@inheritdoc}
+   */
+  protected function setUp() {
+    parent::setUp();
+    $this->installEntitySchema('currency');
+    $this->installEntitySchema('currency_rate');
+  }
+
+  /**
+   * Tests valid empty block.
    */
   public function testIsValidEmptyBlock() {
     $manager = $this->container->get('plugin.manager.block');
@@ -29,8 +49,61 @@ class NBRBCurrenciesBlockTest extends KernelTestBase {
       'provider' => 'demo_currencies',
       'label_display' => 'visible',
     ];
-    $this->NBRBCurrenciesBlock = $manager->createInstance($plugin_id, $configureation);
-    $a = 1;
-    $this->assertTrue(TRUE, 'Is a valid.');
+    $display_block = $manager->createInstance($plugin_id, $configureation);
+    $build = $display_block->build();
+    $this->assertTrue(empty($build), 'Block is not empty.');
+  }
+
+  /**
+   * Tests valid filled block.
+   */
+  public function testIsValidFilledBlock() {
+    $manager = $this->container->get('plugin.manager.block');
+    $plugin_id = 'demo_currencies_currencies_block';
+    $configureation = [
+      'id' => $plugin_id,
+      'label' => 'Currencies',
+      'provider' => 'demo_currencies',
+      'label_display' => 'visible',
+    ];
+    $currency = Currency::Create([
+      'code' => 'USD',
+      'name' => 'Dollar USD',
+      'display_on_page' => TRUE,
+      'display_in_block' => TRUE,
+    ]);
+    $currency->save();
+    $currency = Currency::Create([
+      'code' => 'EUR',
+      'name' => 'Euro',
+      'display_on_page' => TRUE,
+      'display_in_block' => TRUE,
+    ]);
+    $currency->save();
+
+    $datetime = new DrupalDateTime();
+    $date = $datetime->format('Y-m-d');
+
+    $rate = CurrencyRate::Create([
+      'code' => 'USD',
+      'name' => 'Dollar USD' . ' - ' . $date,
+      'date' => $date,
+      'rate' => 2,
+      'prev_day_diff' => 0,
+    ]);
+    $rate->save();
+
+    $rate = CurrencyRate::Create([
+      'code' => 'EUR',
+      'name' => 'Euro' . ' - ' . $date,
+      'date' => $date,
+      'rate' => 2.2,
+      'prev_day_diff' => 0,
+    ]);
+    $rate->save();
+
+    $display_block = $manager->createInstance($plugin_id, $configureation);
+    $build = $display_block->build();
+    $this->assertFalse(empty($build['list']['#items']), 'Data is empty and won\'t be showed in block.');
   }
 }

@@ -66,43 +66,43 @@ class NBRBCurrenciesBlock extends BlockBase implements ContainerFactoryPluginInt
   /**
    * {@inheritdoc}
    */
-  public function build() {
+  public function build() { //1
     $current_date = new DrupalDateTime();
-    $date = $current_date->format('Y-m-d');
+    $date = $current_date->format('Y-m-d'); //2
     $query = \Drupal::entityQuery('currency_rate')
       ->condition('date', $date);
     $ids = $query->execute();
     $show_currencies = [];
-    foreach ($ids as $id) {
+    foreach ($ids as $id) {  //3
       $rate = CurrencyRate::load($id);
-      $currency = Currency::load($rate->code->value);
-      if ($currency->getInBlockOpt()) {
-        $show_currencies[$rate->code->value] = $rate;
-      }
+      $currency = Currency::load($rate->code->value); //4
+      if ($currency->getInBlockOpt()) { //5
+        $show_currencies[$rate->code->value] = $rate; //6
+      } //7
     }
-    if (!empty($show_currencies)) {
+    if (!empty($show_currencies)) { //8
       // Only display the block if there are items to show.
-      $build['#cache']['max-age'] = 0;
+      $build['#cache']['max-age'] = 0; //9
       $build['list'] = [
         '#theme' => 'item_list',
         '#items' => [],
       ];
-      foreach ($show_currencies as $item) {
-        if ($item) {
-          $build['list']['#items'][$item->code->value] = [
+      foreach ($show_currencies as $item) { //10
+        if ($item) {  //11
+          $build['list']['#items'][$item->code->value] = [  //12
             '#type' => 'markup',
             '#markup' => '<b>' . $item->name->value . ': </b>' . $item->rate->value,
-          ];
+          ];  //13
         }
       }
-      $build['more_link'] = [
+      $build['more_link'] = [ //14
         '#type' => 'link',
         '#title' => $this->t('View More Currencies.'),
         '#url' => Url::fromRoute('demo_currencies.all_currencies'),
       ];
       return $build;
     }
-  }
+  } //15
 
   /**
    * {@inheritdoc}
